@@ -1,0 +1,71 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/object1616270602.json",
+  "title": "Root",
+  "type": "object",
+  "properties": {
+    "data": {
+      "$id": "#root/data",
+      "title": "Data",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$id": "#root/data/id",
+          "title": "Id",
+          "type": "integer",
+          "default": 0
+        },
+        "email": {
+          "$id": "#root/data/email",
+          "title": "Email",
+          "type": "string",
+          "default": "",
+          "pattern": "^.*$"
+        },
+        "first_name": {
+          "$id": "#root/data/first_name",
+          "title": "First_name",
+          "type": "string",
+          "default": "",
+          "pattern": "^.*$"
+        },
+        "last_name": {
+          "$id": "#root/data/last_name",
+          "title": "Last_name",
+          "type": "string",
+          "default": "",
+          "pattern": "^.*$"
+        },
+        "avatar": {
+          "$id": "#root/data/avatar",
+          "title": "Avatar",
+          "type": "string",
+          "default": "",
+          "pattern": "^.*$"
+        }
+      }
+    },
+    "support": {
+      "$id": "#root/support",
+      "title": "Support",
+      "type": "object",
+      "properties": {
+        "url": {
+          "$id": "#root/support/url",
+          "title": "Url",
+          "type": "string",
+          "default": "",
+          "pattern": "^.*$"
+        },
+        "text": {
+          "$id": "#root/support/text",
+          "title": "Text",
+          "type": "string",
+          "default": "",
+          "pattern": "^.*$"
+        }
+      }
+    }
+  }
+}
