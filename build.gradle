@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.8.1'
 }
 
 group 'org.example'
@@ -9,12 +10,29 @@ repositories {
     mavenCentral()
 }
 
+def allureVersion = "2.13.8",
+    restassuredVersion = "4.3.3",
+    hamcrestVersion = "2.2",
+    junitVersion = "5.7.1"
+
+allure {
+    version = "$allureVersion"
+    autoconfigure = true
+    aspectjweaver = true
+    useJUnit5 {
+        version = "$allureVersion"
+    }
+}
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testImplementation 'io.rest-assured:rest-assured:4.3.3'
-    testImplementation 'io.rest-assured:json-path:4.3.3'
-    testImplementation 'io.rest-assured:json-schema-validator:4.3.3'
-    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation (
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+            "io.rest-assured:rest-assured:$restassuredVersion",
+            "io.rest-assured:json-path:$restassuredVersion",
+            "io.rest-assured:json-schema-validator:$restassuredVersion",
+            "org.hamcrest:hamcrest:$hamcrestVersion",
+            "io.qameta.allure:allure-java-commons:$allureVersion",
+            "io.qameta.allure:allure-rest-assured:$allureVersion"
+    )
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
