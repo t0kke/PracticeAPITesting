@@ -39,6 +39,20 @@ public class ApiTests extends BaseTest {
 
     }
 
+    @DisplayName("Изменяем поле пользователя")
+    @Test
+    void updateUser() {
+        given()
+                .body("{ \"job\": \"programmer\" }")
+                .when()
+                .patch(Endpoints.USERS.addPath("/2"))
+                .then()
+                .statusCode(HTTP_OK)
+                .body("job", is("programmer"))
+                .log().body();
+
+    }
+
     @DisplayName("Успешная регистрация нового пользователя")
     @Test
     void successfulUserRegistration() {
@@ -63,6 +77,19 @@ public class ApiTests extends BaseTest {
                 .then()
                 .statusCode(HTTP_BAD_REQUEST)
                 .body("error", is("Missing password"))
+                .log().body();
+    }
+
+    @DisplayName("Успешный логин пользователем")
+    @Test
+    void successfulUserLogin() {
+        given()
+                .body("{ \"email\": \"eve.holt@reqres.in\", \"password\": \"cityslicka\" }")
+                .when()
+                .post(Endpoints.LOGIN.getPath())
+                .then()
+                .statusCode(HTTP_OK)
+                .body("token", is(notNullValue()))
                 .log().body();
     }
 }
