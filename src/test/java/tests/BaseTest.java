@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,6 +12,9 @@ public class BaseTest {
     static void setup() {
         RestAssured.baseURI = "https://reqres.in/api";
         RestAssured.requestSpecification = given()
-                .contentType(ContentType.JSON);
+                .filter(new AllureRestAssured())
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON);
+
     }
 }

@@ -1,7 +1,7 @@
 package config;
 
 public enum Endpoints {
-    USERS("/users"), REGISTER("/register");
+    USERS("/users"), REGISTER("/register"), LOGIN("/login");
     String path;
 
     Endpoints(String path) {

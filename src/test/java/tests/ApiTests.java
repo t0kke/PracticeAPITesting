@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static java.net.HttpURLConnection.HTTP_CREATED;
-import static java.net.HttpURLConnection.HTTP_OK;
+import static java.net.HttpURLConnection.*;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -38,5 +37,32 @@ public class ApiTests extends BaseTest {
                 .body("id", is(notNullValue()))
                 .log().body();
 
+    }
+
+    @DisplayName("Успешная регистрация нового пользователя")
+    @Test
+    void successfulUserRegistration() {
+        given()
+                .body("{ \"email\": \"eve.holt@reqres.in\", \"password\": \"pistol\" }")
+                .when()
+                .post(Endpoints.REGISTER.getPath())
+                .then()
+                .statusCode(HTTP_OK)
+                .body("id", is(4))
+                .body("token", is(notNullValue()))
+                .log().body();
+    }
+
+    @DisplayName("Неуспешная регистрация нового пользователя.  Отправка только email")
+    @Test
+    void unsuccessfulUserRegistration() {
+        given()
+                .body("{ \"email\": \"eve.holt@reqres.in\"}")
+                .when()
+                .post(Endpoints.REGISTER.getPath())
+                .then()
+                .statusCode(HTTP_BAD_REQUEST)
+                .body("error", is("Missing password"))
+                .log().body();
     }
 }
