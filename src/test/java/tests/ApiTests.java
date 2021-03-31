@@ -1,16 +1,22 @@
 package tests;
 
 import config.Endpoints;
+import model.CreateUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import steps.Steps;
 
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static java.net.HttpURLConnection.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+import static java.net.HttpURLConnection.HTTP_OK;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class ApiTests extends BaseTest {
+    private CreateUser createUser;
+
     @DisplayName("Сверяем Json схему сервера с эталонной")
     @Test
     void checkJsonSchemaOfSingleUser() {
@@ -24,19 +30,23 @@ public class ApiTests extends BaseTest {
 
     }
 
-    @DisplayName("Создаем нового пользователя")
     @Test
-    void createNewUser() {
-        given()
-                .body("{ \"name\": \"George Clooney\", \"job\": \"actor\" }")
-                .when()
-                .post(Endpoints.USERS.getPath())
-                .then()
-                .statusCode(HTTP_CREATED)
-                .body("name", is("George Clooney"))
-                .body("id", is(notNullValue()))
-                .log().body();
+    @DisplayName("Создаем нового пользователя")
+    void createUser() {
+        String name = "Anthony Hopkins";
+        String job = "Actor";
 
+        step("Регистрация нового пользователя", () -> {
+            step("Регистрация нового пользователя", () -> {
+                createUser = Steps.registerNewUser(name, job);
+            });
+            step("Проверяем, что с сервера приходит верное имя ", () -> {
+                assertThat(createUser.getName(), is(equalTo(name)));
+            });
+            step("Проверяем, что поле id не путое", () -> {
+                assertThat(createUser.getJob(), is(notNullValue()));
+            });
+        });
     }
 
     @DisplayName("Изменяем поле пользователя")

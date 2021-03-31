@@ -4,12 +4,13 @@ import config.Endpoints;
 import model.CreateUser;
 
 import static io.restassured.RestAssured.given;
+import static java.net.HttpURLConnection.HTTP_CREATED;
 
 public class Steps {
-    public static CreateUser registerNewUser() {
+    public static CreateUser registerNewUser(String name, String job) {
         CreateUser createUser = new CreateUser();
-        createUser.setName("Anthony Hopkins");
-        createUser.setJob("actor");
+        createUser.setName(name);
+        createUser.setJob(job);
 
         return given()
                 .body(createUser)
@@ -18,6 +19,7 @@ public class Steps {
                 .when()
                 .post(Endpoints.USERS.getPath())
                 .then()
+                .statusCode(HTTP_CREATED)
                 .log().body()
                 .extract()
                 .as(CreateUser.class);
